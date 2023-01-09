@@ -5,16 +5,15 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
-public class Building {
+public class HouseManagementCompany {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @OneToMany(mappedBy = "building")
-    private Set<Apartment> apartments;
+    private String name;
 
-    @OneToOne
-    private ManagerBuildingContract contract;
+    @OneToMany(mappedBy = "company")
+    private Set<HouseManager> houseManagers;
 
 }
