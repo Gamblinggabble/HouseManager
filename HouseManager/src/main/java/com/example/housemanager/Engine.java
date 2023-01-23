@@ -65,8 +65,8 @@ public class Engine implements ApplicationRunner {
         Building building1 = new Building(6);
 
         // adding apartments and their owners
-        Apartment apartment1 = new Apartment(1, 100, 60, new Person("Nikolay", 48, "0878977654", true), 1, building1);
-        Apartment apartment2 = new Apartment(2, 200, 60, new Person("Gabriela", 22, "0879271225", true), 3, building1);
+        Apartment apartment1 = new Apartment(1, "100", 60, new Person("Nikolay", 48, "0878977654", true), 1, building1);
+        Apartment apartment2 = new Apartment(2, "200", 60, new Person("Gabriela", 22, "0879271225", true), 3, building1);
 
         building1.addApartment(apartment1);
         building1.addApartment(apartment2);
@@ -94,7 +94,7 @@ public class Engine implements ApplicationRunner {
         Person occupant1 = new Person("Petko Petkov", 23, "0884523621", false);
         Person occupant2 = new Person("Viktor Ivanov", 22, "0872345623", true);
 
-        Apartment apartment = this.apartmentService.getById(1);
+        Apartment apartment = this.apartmentService.getById(new ApartmentId("200", this.buildingService.getById(1)));
         apartment.addOccupant(occupant1);
         apartment.addOccupant(occupant2);
         this.apartmentService.save(apartment);

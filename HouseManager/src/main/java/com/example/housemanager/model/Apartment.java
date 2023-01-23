@@ -1,20 +1,21 @@
 package com.example.housemanager.model;
 
 import jakarta.persistence.*;
-
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@IdClass(ApartmentId.class)
 public class Apartment {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-
+    
     private int floor;
 
-    private int apartmentNumber;
+    @Id
+    private String apartmentNumber;
+
+    @ManyToOne
+    @Id
+    private Building building;
 
     private double area;
 
@@ -26,13 +27,11 @@ public class Apartment {
     @ManyToMany(mappedBy = "apartmentsInWhichLives", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Set<Person> occupants = new HashSet<>();
 
-    @ManyToOne
-    private Building building;
 
     public Apartment() {
     }
 
-    public Apartment(int floor, int apartmentNumber, double area, Person owner, int petsCnt, Building building) {
+    public Apartment(int floor, String apartmentNumber, double area, Person owner, int petsCnt, Building building) {
         this.floor = floor;
         this.apartmentNumber = apartmentNumber;
         this.area = area;

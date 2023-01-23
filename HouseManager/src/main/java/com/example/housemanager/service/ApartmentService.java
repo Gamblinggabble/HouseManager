@@ -1,6 +1,7 @@
 package com.example.housemanager.service;
 
 import com.example.housemanager.model.Apartment;
+import com.example.housemanager.model.ApartmentId;
 import com.example.housemanager.repository.ApartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class ApartmentService {
         return this.apartmentRepository.findAll();
     }
 
-    public Apartment getById(Integer id) {
+    public Apartment getById(ApartmentId id) {
         Optional<Apartment> apartmentOptional = this.apartmentRepository.findById(id);
         if (!apartmentOptional.isPresent()) {
             System.out.println("Apartment with id " + id + "does not exist in the database.");
@@ -31,7 +32,7 @@ public class ApartmentService {
         this.apartmentRepository.saveAndFlush(apartment);
     }
 
-    public void deleteById(Integer id) {
+    public void deleteById(ApartmentId id) {
         this.apartmentRepository.deleteById(id);
     }
 }

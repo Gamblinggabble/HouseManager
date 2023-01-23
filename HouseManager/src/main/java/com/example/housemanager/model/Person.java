@@ -24,7 +24,8 @@ public class Person {
     @ManyToMany
     @JoinTable(name = "occupant_apartment",
             joinColumns = @JoinColumn(name = "person_id"),
-            inverseJoinColumns = @JoinColumn(name = "apartment_id"))
+            inverseJoinColumns = {@JoinColumn(name = "apartment_apartmentNumber"), @JoinColumn(name = "apartment_building")}
+    )
     private Set<Apartment> apartmentsInWhichLives = new HashSet<>();
 
     @OneToMany(mappedBy="owner", cascade = CascadeType.PERSIST)
