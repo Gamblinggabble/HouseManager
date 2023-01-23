@@ -1,9 +1,9 @@
 package com.example.housemanager.repository;
 
-import com.example.housemanager.model.Person;
+import com.example.housemanager.model.Apartment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PersonRepository extends JpaRepository<Person, Integer> {
+public interface ApartmentRepository extends JpaRepository<Apartment, Integer> {
 }
