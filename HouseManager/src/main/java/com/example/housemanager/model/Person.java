@@ -48,4 +48,8 @@ public class Person {
     public void addApartmentOwned(Apartment apartment) {
         this.apartmentsOwned.add(apartment);
     }
+
+    public String getName() {
+        return name;
+    }
 }

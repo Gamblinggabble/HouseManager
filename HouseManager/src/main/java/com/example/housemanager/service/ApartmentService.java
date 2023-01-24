@@ -15,6 +15,9 @@ public class ApartmentService {
     @Autowired
     private ApartmentRepository apartmentRepository;
 
+    @Autowired
+    private BuildingService buildingService;
+
     public List<Apartment> getAll() {
         return this.apartmentRepository.findAll();
     }
@@ -26,6 +29,11 @@ public class ApartmentService {
             return null;
         }
         return apartmentOptional.get();
+    }
+
+    public Apartment getById(Integer building_id, String apartment_number) {
+        ApartmentId id = new ApartmentId(apartment_number, buildingService.getById(building_id));
+        return this.getById(id);
     }
 
     public void save(Apartment apartment) {

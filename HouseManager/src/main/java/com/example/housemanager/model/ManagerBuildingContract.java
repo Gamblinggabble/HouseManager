@@ -3,10 +3,11 @@ package com.example.housemanager.model;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 @IdClass(ContractId.class)
-@Table(name = "manager-building-contract")
+@Table(name = "CONTRACT")
 public class ManagerBuildingContract {
 
     @Id
@@ -29,9 +30,9 @@ public class ManagerBuildingContract {
     public ManagerBuildingContract(Building building, Manager manager, BigDecimal pricePerSqrtM, BigDecimal pricePerPerson, BigDecimal petFee) {
         this.building = building;
         this.manager = manager;
-        this.pricePerSqrtM = pricePerSqrtM;
-        this.pricePerPerson = pricePerPerson;
-        this.petFee = petFee;
+        setPricePerSqrtM(pricePerSqrtM);
+        setPricePerPerson(pricePerPerson);
+        setPetFee(petFee);
     }
 
     public Building getBuilding() {
@@ -50,6 +51,24 @@ public class ManagerBuildingContract {
         this.manager = manager;
     }
 
+    public void setPricePerSqrtM(BigDecimal pricePerSqrtM) {
+        if(pricePerSqrtM.compareTo(BigDecimal.valueOf(0)) < 0)
+            throw new IllegalArgumentException("Price per sqrtM must be positive.");
+        this.pricePerSqrtM = pricePerSqrtM;
+    }
+
+    public void setPricePerPerson(BigDecimal pricePerPerson) {
+        if(pricePerPerson.compareTo(BigDecimal.valueOf(0)) < 0)
+            throw new IllegalArgumentException("Price per person must be positive.");
+        this.pricePerPerson = pricePerPerson;
+    }
+
+    public void setPetFee(BigDecimal petFee) {
+        if(petFee.compareTo(BigDecimal.valueOf(0)) < 0)
+            throw new IllegalArgumentException("Fee per pet must be positive.");
+        this.petFee = petFee;
+    }
+
     public BigDecimal getPricePerSqrtM() {
         return pricePerSqrtM;
     }
@@ -60,5 +79,18 @@ public class ManagerBuildingContract {
 
     public BigDecimal getPetFee() {
         return petFee;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ManagerBuildingContract contract = (ManagerBuildingContract) o;
+        return building.equals(contract.building) && manager.equals(contract.manager);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(building, manager);
     }
 }

@@ -1,10 +1,9 @@
 package com.example.housemanager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Building {
@@ -13,12 +12,13 @@ public class Building {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @OneToMany(mappedBy = "building", cascade = CascadeType.PERSIST)
-    private Set<Apartment> apartments = new HashSet<>();
+    @OneToMany(mappedBy = "building", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<Apartment> apartments = new ArrayList<>();
 
     private int floorsCnt;
 
     @OneToOne(mappedBy = "building", cascade = CascadeType.ALL)
+    @JsonIgnore
     private ManagerBuildingContract contract = null;
 
     public Building() {
@@ -33,7 +33,7 @@ public class Building {
         return id;
     }
 
-    public Set<Apartment> getApartments() {
+    public List<Apartment> getApartments() {
         return apartments;
     }
 
@@ -71,5 +71,14 @@ public class Building {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Building{" +
+                "id=" + id +
+                ", floorsCnt=" + floorsCnt +
+                ", contract=" + contract +
+                '}';
     }
 }

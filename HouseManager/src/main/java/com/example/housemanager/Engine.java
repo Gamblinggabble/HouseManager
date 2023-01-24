@@ -36,6 +36,7 @@ public class Engine implements ApplicationRunner {
         saveEmployees();
         saveBuildings();
         saveOccupants();
+        payFees();
     }
 
     private void saveCompanies() {
@@ -65,8 +66,8 @@ public class Engine implements ApplicationRunner {
         Building building1 = new Building(6);
 
         // adding apartments and their owners
-        Apartment apartment1 = new Apartment(1, "100", 60, new Person("Nikolay", 48, "0878977654", true), 1, building1);
-        Apartment apartment2 = new Apartment(2, "200", 60, new Person("Gabriela", 22, "0879271225", true), 3, building1);
+        Apartment apartment1 = new Apartment(1, "100", 60, 5, new Person("Nikolay", 48, "0878977654", true), 1, building1);
+        Apartment apartment2 = new Apartment(2, "200", 75, 5, new Person("Gabriela", 22, "0879271225", true), 3, building1);
 
         building1.addApartment(apartment1);
         building1.addApartment(apartment2);
@@ -75,7 +76,7 @@ public class Engine implements ApplicationRunner {
         this.buildingService.save(building1);
 
         // preparing contract
-        BigDecimal pricePerSqrtM1 =  BigDecimal.valueOf(1000);
+        BigDecimal pricePerSqrtM1 =  BigDecimal.valueOf(2);
         BigDecimal feePerPerson1 =  BigDecimal.valueOf(15);
         BigDecimal feePerPet1 =  BigDecimal.valueOf(10);
         Manager manager = this.managerService.getById(1);
@@ -97,6 +98,13 @@ public class Engine implements ApplicationRunner {
         Apartment apartment = this.apartmentService.getById(new ApartmentId("200", this.buildingService.getById(1)));
         apartment.addOccupant(occupant1);
         apartment.addOccupant(occupant2);
+        this.apartmentService.save(apartment);
+    }
+
+    private void payFees() {
+        System.out.println("--- PAYING FEES ---");
+        Apartment apartment = this.apartmentService.getById(1, "200");
+        apartment.payFees();
         this.apartmentService.save(apartment);
     }
 }
